@@ -11,8 +11,7 @@ router.get('/', function (req, res) {
   })
 });
 
-
-router.get('/:id', (req,res) => {
+router.get('/:id', async (req, res) => {
   const creature = await CreatureModel.findById(req.params.id)
   res.send({
     creature

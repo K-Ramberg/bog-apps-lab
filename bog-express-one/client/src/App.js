@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Link, Switch, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import axios from 'axios'
 import CreaturesHome from './components/CreaturesHome';
+import FeatureCreature from './components/FeatureCreature';
 
 
 class App extends Component {
@@ -24,10 +25,12 @@ class App extends Component {
       <CreaturesHome creatures={this.state.creatures} {...props}/>
     )
 
+
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={CreatureHomeWrapper}/>
+          <Route exact path='/' render={CreatureHomeWrapper}/>
+          <Route exact path='/:creatureId' component={FeatureCreature}/> 
         </Switch>
       </Router>
     );
