@@ -18,16 +18,27 @@ router.get('/:id', async (req, res) => {
   })
 })
 
-router.post('/', (req,res) => {
-    const newCreature = new CreatureModel(req.body)
-    newCreature.save().then((creature) => {
-      res.send(creature)
-    })
+router.post('/', (req, res) => {
+  const newCreature = new CreatureModel(req.body)
+  newCreature.save().then((creature) => {
+    res.send(creature)
+  })
 })
 
-router.delete('/:id', (req,res) => {
-   CreatureModel.findByIdAndRemove(req.params.id)
-    .then(()=>{
+
+router.patch('/:id', async (req, res) => {
+  const updatedCreature = await CreatureModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  res.send(updatedCreature)
+})
+
+
+
+
+
+
+router.delete('/:id', (req, res) => {
+  CreatureModel.findByIdAndRemove(req.params.id)
+    .then(() => {
       CreatureModel.find().then((creatures) => {
         res.send({
           creatures

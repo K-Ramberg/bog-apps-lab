@@ -33,8 +33,6 @@ class CreaturesHome extends Component {
     handleNewSubmit = (event) => {
         event.preventDefault()
         axios.post('/api/creatures', this.state.newCreature).then((res) => {
-            console.log(res.data)
-
             this.props.history.push(`/${res.data._id}`)
         })
     }
