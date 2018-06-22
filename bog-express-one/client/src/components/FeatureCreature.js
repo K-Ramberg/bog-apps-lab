@@ -20,7 +20,8 @@ class FeatureCreature extends Component {
         const creature = this.state.creature
         return (
             <div>
-                Was Machst Du?!?! Das hier bin der {creature.name}
+                <h3>Was Machst Du?!?! Das hier bin der {creature.name}</h3>
+                <div>Achtung! {creature.description}</div>
             </div>
         );
     }

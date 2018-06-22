@@ -18,4 +18,11 @@ router.get('/:id', async (req, res) => {
   })
 })
 
+router.post('/', (req,res) => {
+    const newCreature = new CreatureModel(req.body)
+    newCreature.save().then((creature) => {
+      res.send(creature)
+    })
+})
+
 module.exports = router;
