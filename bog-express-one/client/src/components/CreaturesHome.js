@@ -23,19 +23,31 @@ class CreaturesHome extends Component {
         event.preventDefault()
         axios.post('/api/creatures', this.state).then((res) => {
             console.log(res.data)
+            
             this.props.history.push(`/${res.data._id}`)
         })
     }
 
+    deleteCreature = (creatureId) => {
+        axios.delete(`/api/creatures/${creatureId}`).then((res) => {
+            console.log(res)
+        })
+    }
+
     render() {
+
+        console.log(this.props.creatures)
+        const creatureArray = this.props.creatures
+        
         return (
             <div>
                 <div>
                     <h1>diese hier bin der Creatures</h1>
-                    {this.props.creatures.map((creature) => {
+                    {creatureArray.map((creature) => {
                         return (
                             <div key={creature._id}>
                                 <Link to={`/${creature._id}`}>{creature.name}</Link>
+                                <button type="submit" onClick={() => this.deleteCreature(creature._id)}>Delete Creature</button>
                             </div>
                         )
                     })}
