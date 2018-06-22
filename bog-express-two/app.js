@@ -1,5 +1,6 @@
 require('dotenv').config()
 var express = require('express');
+const mongoose = require('mongoose')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -15,8 +16,7 @@ connection.on('error', (err) => {
   console.log('Mongoose default connection error: ' + err)
 })
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var creaturesRouter = require('./routes/creatures');
 
 var app = express();
 
@@ -30,7 +30,6 @@ app.get('/', (req,res) => {
     res.sendFile(__dirname + '/client/build/index.html')
 })
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/creatures', creaturesRouter);
 
 module.exports = app;
