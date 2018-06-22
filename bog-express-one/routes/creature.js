@@ -28,7 +28,11 @@ router.post('/', (req,res) => {
 router.delete('/:id', (req,res) => {
    CreatureModel.findByIdAndRemove(req.params.id)
     .then(()=>{
-      console.log('deleted')
+      CreatureModel.find().then((creatures) => {
+        res.send({
+          creatures
+        })
+      })
     })
 })
 

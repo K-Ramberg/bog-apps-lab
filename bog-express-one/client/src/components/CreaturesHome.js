@@ -6,39 +6,50 @@ import axios from 'axios'
 class CreaturesHome extends Component {
 
     state = {
-        name: '',
-        description: ''
+        creatures: [],
+        newCreature: {
+            name: '',
+            description: ''
+        }
     }
 
-    handleChange = (event) => {
+    componentDidMount() {
+        axios.get('/api/creatures').then((res) => {
+            this.setState({ creatures: res.data.creatures })
+        }).catch((err) => {
+            console.log('this is the error ' + err)
+        })
+    }
+
+    handleNewChange = (event) => {
         const nameAtrOfInput = event.target.name
         const userInput = event.target.value
 
-        const newState = {...this.state}
-        newState[nameAtrOfInput] = userInput
+        const newState = { ...this.state }
+        newState.newCreature[nameAtrOfInput] = userInput
         this.setState(newState)
     }
 
-    handleSubmit = (event) => {
+    handleNewSubmit = (event) => {
         event.preventDefault()
-        axios.post('/api/creatures', this.state).then((res) => {
+        axios.post('/api/creatures', this.state.newCreature).then((res) => {
             console.log(res.data)
-            
+
             this.props.history.push(`/${res.data._id}`)
         })
     }
 
     deleteCreature = (creatureId) => {
         axios.delete(`/api/creatures/${creatureId}`).then((res) => {
-            console.log(res)
+            this.setState({
+                creatures: res.data.creatures})
         })
     }
 
     render() {
 
-        console.log(this.props.creatures)
-        const creatureArray = this.props.creatures
-        
+        const creatureArray = this.state.creatures
+
         return (
             <div>
                 <div>
@@ -53,18 +64,18 @@ class CreaturesHome extends Component {
                     })}
                 </div>
                 <h3>make New Creature</h3>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" 
-                    placeholder="creature name" 
-                    name="name" 
-                    value={this.state.name} 
-                    onChange={this.handleChange}/>
+                <form onSubmit={this.handleNewSubmit}>
+                    <input type="text"
+                        placeholder="creature name"
+                        name="name"
+                        value={this.state.newCreature.name}
+                        onChange={this.handleNewChange} />
 
-                    <input type="text" 
-                    placeholder="creature description" 
-                    name="description" 
-                    value={this.state.description} 
-                    onChange={this.handleChange}/>
+                    <input type="text"
+                        placeholder="creature description"
+                        name="description"
+                        value={this.state.newCreature.description}
+                        onChange={this.handleNewChange} />
                     <button type="submit">Make It</button>
                 </form>
             </div>
